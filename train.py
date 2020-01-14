@@ -59,8 +59,8 @@ config = dict(
     task_architecture="ResNet18",
     seed=42,
     rank=0,
-    n_workers=1,
-    distributed_init_file=None,
+    n_workers=2,
+    distributed_init_file="/data/scratch/ahmed/powersgd/sharedfile",
     log_verbosity=2,
 )
 
@@ -224,6 +224,8 @@ def main():
                                 param.data[:] /= l2norm(param)
 
                 with timer("batch.update_runavg", epoch_frac, verbosity=2):
+                    #print(type(task.state_dict()))
+                    #print(isinstance(task.state_dict(), dict))
                     runavg_model.add(task.state_dict())
 
                 if config["optimizer_memory"]:

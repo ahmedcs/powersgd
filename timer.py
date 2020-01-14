@@ -45,10 +45,10 @@ class Timer:
 
         # Measure the time
         self._cuda_sync()
-        start = time.time_ns() * NS
+        start = time.time() #.time_ns() * NS
         yield
         self._cuda_sync()
-        end = time.time_ns() * NS
+        end = time.time()  #time_ns() * NS
 
         # Update first and last occurrence of this label
         if not label in self.first_time:

@@ -69,8 +69,10 @@ class MeanAccumulator:
     def _update(self, value, weight):
         alpha = float(self.update_weight * weight) / float(self.counter + self.update_weight - 1)
         if isinstance(self.average, torch.Tensor):
-            self.average.mul_(1.0 - alpha)
-            self.average.add_(alpha, value)
+            temp = self.average.mul(1.0 - alpha)
+            self.average.set_(temp.type( self.average.dtype))
+            temp = torch.add(alpha, value)
+            self.average.add_(temp.type( self.average.dtype))
         elif isinstance(self.average, float):
             self.average *= 1.0 - alpha
             self.average += alpha * value
